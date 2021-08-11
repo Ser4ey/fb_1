@@ -135,6 +135,10 @@ class FaceBookParser:
         zapusk = 'Нет времени запуска'
         fb_id = 'Нет facebook id'
         product_name = 'Нет имени продукта'
+        socs = 'Нет соц.сетей'
+        fb_ava = 'Нет ссылки на аватарку в facebook'
+        link = 'Нет ссылки'
+        price = 'Нет инстаграм аккаунта'
 
         try:
             block_with_date_and_facebook_id = card.find('div', class_='_7jvz')
@@ -152,11 +156,44 @@ class FaceBookParser:
         except:
             pass
 
+        try:
+            socs_list = card.find('div', class_='_8k-_')
+            socs_list = socs_list.find_all('div', class_='jwy3ehce')
+            socs_list2 = [i.get('style') for i in socs_list]
+            socs = ''
+            for socs_media in socs_list2:
+                if socs_media[-7:] == '-213px;':
+                    socs += 'facebook '
+                elif socs_media[-7:] == '-230px;':
+                    socs += 'instagram '
+                elif socs_media[-7:] == '-364px;':
+                    socs += 'messenger '
+                elif socs_media[-7:] == ' -66px;':
+                    socs += 'audience '
+            if socs == '':
+                socs = 'Нет соц.сетей'
+            socs = socs.strip()
+        except:
+            pass
+
+        try:
+            fb_ava = card.find('img', class_='_8nqq img').get('src')
+        except:
+            pass
+
+        try:
+            main_link = card.find('a', class_='d5rc5kzv chuaj5k6 l61y9joe j8otv06s jrvjs1jy a1itoznt fvlrrmdj svz86pwt aa8h9o0m jrkk970q').get('href')
+            link = main_link
+        except:
+            pass
 
         dict_of_data = {
             'zapusk': zapusk,
             'fb_id': fb_id,
-            'product_name': product_name
+            'product_name': product_name,
+            'socs': socs,
+            'fb_ava': fb_ava,
+            'link': link
         }
 
         return dict_of_data

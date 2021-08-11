@@ -14,9 +14,9 @@ CARD_NUMBER = 0
 d1 = FaceBookParser(USER_AGENT)
 d1.driver.get(URL)
 time.sleep(5)
+d1.scroll_page()
 
-
-for i1 in range(3):
+for i1 in range(1):
 # while True:
     beautiful_soup_cards = d1.get_cards_by_beautiful_soup()
     # selenium_cards = d1.get_cards_by_selenium()
@@ -27,7 +27,6 @@ for i1 in range(3):
     for i in range(CARD_NUMBER, len(beautiful_soup_cards)):
         try:
             card_info1 = d1.get_all_info_from_card(beautiful_soup_cards[CARD_NUMBER])
-            # card_info2_inst_account = d1.get_instagram_account_full(selenium_cards[CARD_NUMBER])
         except:
             CARD_NUMBER += 1
             print(f'Карточка {CARD_NUMBER} пропущена')
@@ -37,6 +36,9 @@ for i1 in range(3):
         print(f'Card: {CARD_NUMBER}')
         print(card_info1)
         print('-'*100)
+        # максимум 30 карточек в 1 прокрутку
+        if i >= 30:
+            break
 
     # time.sleep(3)
     print('Next page/')
