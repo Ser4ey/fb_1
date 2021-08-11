@@ -141,6 +141,13 @@ class FaceBookParser:
         price = 'Нет инстаграм аккаунта'
         opis = 'Нет описания'
 
+        product_image_link = 'Нет ссылки на картинку'
+        product_image2_link = 'Нет ссылки на картинку'
+        product_image3_link = 'Нет ссылки на картинку'
+        product_image4_link = 'Нет ссылки на картинку'
+
+        product_video_link = 'Нет ссылки на видео'
+
         try:
             block_with_date_and_facebook_id = card.find('div', class_='_7jvz')
             date_and_facebook_id = block_with_date_and_facebook_id.find_all('div', class_='_9cd3')
@@ -200,6 +207,31 @@ class FaceBookParser:
         except:
             pass
 
+        try:
+            product_video_link = card.find('video').get('src')
+            # print(product_video_link)
+        except:
+            pass
+
+        try:
+            product_image_link_list = card.find_all('img', class_='_7jys _7jyt img')
+            if len(product_image_link_list) > 0:
+                product_image_link_list = [i.get('src') for i in product_image_link_list]
+                product_image_link_list.append('Нет ссылки на картинку')
+                product_image_link_list.append('Нет ссылки на картинку')
+                product_image_link_list.append('Нет ссылки на картинку')
+
+                product_image_link = product_image_link_list[0]
+                product_image2_link = product_image_link_list[1]
+                product_image3_link = product_image_link_list[2]
+                product_image4_link = product_image_link_list[3]
+            else:
+                product_image_link = card.find('img', class_='_7jys img').get('src')
+
+            # print(product_video_link)
+        except:
+            pass
+
         dict_of_data = {
             'zapusk': zapusk,
             'fb_id': fb_id,
@@ -207,7 +239,12 @@ class FaceBookParser:
             'socs': socs,
             'fb_ava': fb_ava,
             'link': link,
-            'opis': opis
+            'opis': opis,
+            'product_image_link': product_image_link,
+            'product_image2_link': product_image2_link,
+            'product_image3_link': product_image3_link,
+            'product_image4_link': product_image4_link,
+            'product_video_link': product_video_link
         }
 
         return dict_of_data
