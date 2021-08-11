@@ -11,34 +11,38 @@ URL = 'https://www.facebook.com/ads/library/?active_status=all&ad_type=all&count
 CardsData = []
 CARD_NUMBER = 0
 
-
 d1 = FaceBookParser(USER_AGENT)
 d1.driver.get(URL)
 time.sleep(5)
 
 
-for i1 in range(2):
+for i1 in range(3):
+# while True:
     beautiful_soup_cards = d1.get_cards_by_beautiful_soup()
-    selenium_cards = d1.get_cards_by_selenium()
+    # selenium_cards = d1.get_cards_by_selenium()
+    if len(beautiful_soup_cards) <= CARD_NUMBER:
+        print(f'Все карточки получены ({CARD_NUMBER} шт.)')
+        break
 
-    for i in range(len(selenium_cards)):
+    for i in range(CARD_NUMBER, len(beautiful_soup_cards)):
         try:
             card_info1 = d1.get_all_info_from_card(beautiful_soup_cards[CARD_NUMBER])
-            card_info2_inst_account = d1.get_instagram_account_full(selenium_cards[CARD_NUMBER])
+            # card_info2_inst_account = d1.get_instagram_account_full(selenium_cards[CARD_NUMBER])
         except:
             CARD_NUMBER += 1
+            print(f'Карточка {CARD_NUMBER} пропущена')
             continue
         CARD_NUMBER += 1
         print('-'*100)
         print(f'Card: {CARD_NUMBER}')
         print(card_info1)
-        print(card_info2_inst_account)
         print('-'*100)
 
-    time.sleep(3)
+    # time.sleep(3)
+    print('Next page/')
     d1.scroll_page()
-    time.sleep(10)
-    print(f'Page {i1} done')
+    # time.sleep(3)
+    # print(f'Page {i1+1} done')
 
 # d1.driver.find_element_by_class_name('_3-8k').click()
 # time.sleep(5)

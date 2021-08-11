@@ -55,7 +55,7 @@ class FaceBookParser:
     def scroll_page(self):
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         print('[+] Прокрутка страницы')
-        time.sleep(10)
+        time.sleep(data.SCROLL_TIME)
 
     def get_cards_by_selenium(self):
         cards = self.driver.find_elements_by_class_name('_99s5')
@@ -105,11 +105,21 @@ class FaceBookParser:
 
     def get_instagram_account_full(self, card):
         self.open_card(card)
-        time.sleep(2.5)
+
+        time.sleep(1.5)
         inst1 = self.get_instagram_account_from_card_page()
-        if inst1 == 'Нет инстаграмм аккаунта':
-            time.sleep(5)
-            inst1 = self.get_instagram_account_from_card_page()
+        for i in range(20):
+            if inst1 == 'Нет инстаграмм аккаунта':
+                time.sleep(0.3)
+                inst1 = self.get_instagram_account_from_card_page()
+            else:
+                break
+
+        # time.sleep(2.5)
+        # inst1 = self.get_instagram_account_from_card_page()
+        # if inst1 == 'Нет инстаграмм аккаунта':
+        #     time.sleep(5)
+        #     inst1 = self.get_instagram_account_from_card_page()
 
         self.return_to_main_page()
 
@@ -124,22 +134,29 @@ class FaceBookParser:
 
         zapusk = 'Нет времени запуска'
         fb_id = 'Нет facebook id'
+        product_name = 'Нет имени продукта'
+
         try:
             block_with_date_and_facebook_id = card.find('div', class_='_7jvz')
             date_and_facebook_id = block_with_date_and_facebook_id.find_all('div', class_='_9cd3')
-
             # время запуска
             zapusk = date_and_facebook_id[0].text
             #facebook id
             fb_id = date_and_facebook_id[1].text
         except:
             pass
-        # print(f'{zapusk} -- {fb_id}')
+
+        try:
+            product_name = card.find('span', class_='l61y9joe j8otv06s cu1gti5y a1itoznt te7ihjl9 svz86pwt a53abz89')
+            product_name = product_name.text
+        except:
+            pass
 
 
         dict_of_data = {
             'zapusk': zapusk,
-            'fb_id': fb_id
+            'fb_id': fb_id,
+            'product_name': product_name
         }
 
         return dict_of_data
