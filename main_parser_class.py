@@ -139,6 +139,7 @@ class FaceBookParser:
         fb_ava = 'Нет ссылки на аватарку в facebook'
         link = 'Нет ссылки'
         price = 'Нет инстаграм аккаунта'
+        opis = 'Нет описания'
 
         try:
             block_with_date_and_facebook_id = card.find('div', class_='_7jvz')
@@ -187,13 +188,26 @@ class FaceBookParser:
         except:
             pass
 
+        try:
+            opis1 = card.find('div', class_='_7jwy')
+            opis2 = opis1.find('div', class_='_7jyg _7jyh')
+            try:
+                opis = opis2.find('span', class_="l61y9joe jdeypxg0 ippphs35 and5a8ls te7ihjl9 svz86pwt a53abz89").text
+            except:
+                opis = 'Мы показываем вам эту рекламу, потому что не можем определить ваш возраст.'
+
+            opis = opis.strip()
+        except:
+            pass
+
         dict_of_data = {
             'zapusk': zapusk,
             'fb_id': fb_id,
             'product_name': product_name,
             'socs': socs,
             'fb_ava': fb_ava,
-            'link': link
+            'link': link,
+            'opis': opis
         }
 
         return dict_of_data
