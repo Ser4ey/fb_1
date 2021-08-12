@@ -151,6 +151,7 @@ class FaceBookParser:
         price = ''
         opis = ''
         knopka = ''
+        fb_link = ''
 
         product_image_link = ''
         product_image2_link = ''
@@ -224,6 +225,12 @@ class FaceBookParser:
             pass
 
         try:
+            fb_link = card.find('a', class_='d5rc5kzv iz6v9oso l61y9joe j8otv06s jrvjs1jy a1itoznt fvlrrmdj svz86pwt aa8h9o0m').get('href')
+        except:
+            pass
+
+
+        try:
             product_video_link = card.find('video').get('src')
             product_video_link = GoogleDriverSave11.save_video(product_video_link)
             # print(product_video_link)
@@ -266,6 +273,7 @@ class FaceBookParser:
             'link': link,
             'opis': opis,
             'knopka': knopka,
+            'fb_link': fb_link,
             'product_image_link': product_image_link,
             'product_image2_link': product_image2_link,
             'product_image3_link': product_image3_link,

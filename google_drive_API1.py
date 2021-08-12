@@ -16,7 +16,8 @@ class GoogleDrive11:
         self.dir_id = dir_id
 
     def upload_file(self, file_path):
-        file1 = self.drive.CreateFile({"parents": [{"id": self.dir_id}]})
+        # file1 = self.drive.CreateFile({"parents": [{"id": self.dir_id}]})
+        file1 = self.drive.CreateFile()
         file1.SetContentFile(file_path)
         file1.Upload()
 
@@ -50,3 +51,6 @@ class GoogleDrive11:
 
 
 GoogleDriverSave11 = GoogleDrive11(data.google_drive_dir_id)
+
+# GoogleDriverSave11.upload_file('/home/ser4/PycharmProjects/fasebook_parser/media/1628769162.8013887.jpg')
+

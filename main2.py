@@ -7,6 +7,9 @@ USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:90.0) Gecko/20100101 Fi
 
 d1 = FaceBookParser(USER_AGENT)
 
+d1.driver.get('https://www.facebook.com/ads/library')
+input('Вы можете зарегистрироваться в facebook аккаунте, затем нажмите Enter')
+
 
 def get_all_cards_from_page(key_word):
 
@@ -31,6 +34,7 @@ def get_all_cards_from_page(key_word):
         'link',
         'opis',
         'knopka',
+        'fb_link',
         'product_image_link',
         'product_image2_link',
         'product_image3_link',
@@ -66,6 +70,7 @@ def get_all_cards_from_page(key_word):
                     card_info1['link'],
                     card_info1['opis'],
                     card_info1['knopka'],
+                    card_info1['fb_link'],
                     card_info1['product_image_link'],
                     card_info1['product_image2_link'],
                     card_info1['product_image3_link'],
