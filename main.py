@@ -36,13 +36,12 @@ CARD_NUMBER = 0
 d1 = FaceBookParser(USER_AGENT)
 d1.driver.get(URL)
 time.sleep(5)
-# d1.scroll_page()
+d1.scroll_page()
 
-for i1 in range(10):
+for i1 in range(1):
 # while True:
-    print(i1)
+    # print(i1)
     beautiful_soup_cards = d1.get_cards_by_beautiful_soup()
-    # selenium_cards = d1.get_cards_by_selenium()
     if len(beautiful_soup_cards) <= CARD_NUMBER:
         print(f'Все карточки получены ({CARD_NUMBER} шт.)')
         break

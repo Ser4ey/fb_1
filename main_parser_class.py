@@ -170,9 +170,9 @@ class FaceBookParser:
             socs_list2 = [i.get('style') for i in socs_list]
             socs = ''
             for socs_media in socs_list2:
-                if socs_media[-7:] == '-213px;':
+                if socs_media[-7:] == '-802px;':
                     socs += 'facebook '
-                elif socs_media[-7:] == '-230px;':
+                elif socs_media[-7:] == '-819px;':
                     socs += 'instagram '
                 elif socs_media[-7:] == '-364px;':
                     socs += 'messenger '
