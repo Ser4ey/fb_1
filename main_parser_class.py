@@ -263,7 +263,6 @@ class FaceBookParser:
         }
 
         if product_image_link == '' and product_video_link == '':
-            print('Пустая карточка')
             return None
 
         return dict_of_data

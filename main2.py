@@ -18,7 +18,7 @@ def get_all_cards_from_page(key_word):
     TIME_NOW = str(time.time()).split(".")[0]
 
     def save_in_scv(row):
-        with open(f'{key_word}{TIME_NOW}.csv', 'a', encoding='utf-8') as file:
+        with open(f'results/{key_word}{TIME_NOW}.csv', 'a', encoding='utf-8') as file:
             writer = csv.writer(file)
             writer.writerow(row)
 
@@ -51,6 +51,9 @@ def get_all_cards_from_page(key_word):
         for i in range(CARD_NUMBER, len(beautiful_soup_cards)):
             try:
                 card_info1 = d1.get_all_info_from_card(beautiful_soup_cards[CARD_NUMBER])
+                if card_info1 is None:
+                    print('Пустая карточка')
+                    raise Exception
 
                 # запись в .csv
                 work_row = (
