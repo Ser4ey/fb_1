@@ -11,17 +11,17 @@ from selenium.webdriver.common.keys import Keys
 
 
 class FaceBookParser:
-    def __init__(self, user_agent, firefox_profile='/home/ser4/.mozilla/firefox/8da9zz4w.default-release'):
+    def __init__(self):
 
         firefox_capabilities = webdriver.DesiredCapabilities.FIREFOX
         firefox_capabilities['marionette'] = True
 
-        profile = webdriver.FirefoxProfile(firefox_profile)
+        profile = webdriver.FirefoxProfile(data.firefox_profile)
 
         options = webdriver.FirefoxOptions()
         options.set_preference("dom.webdriver.enabled", False)
         options.set_preference("dom.webnotifications.enabled", False)
-        options.set_preference("general.useragent.override", user_agent)
+        # options.set_preference("general.useragent.override", user_agent)
 
         driver = webdriver.Firefox(
             executable_path=data.path_to_geckodriver,

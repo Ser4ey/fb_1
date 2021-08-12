@@ -2,10 +2,18 @@ import time
 import csv
 from main_parser_class import FaceBookParser
 from bs4 import BeautifulSoup
+import os
+
+
+if not os.path.exists('media'):
+    os.mkdir('media')
+
+if not os.path.exists('results'):
+    os.mkdir('results')
 
 USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:90.0) Gecko/20100101 Firefox/90.0'
 
-d1 = FaceBookParser(USER_AGENT)
+d1 = FaceBookParser()
 
 d1.driver.get('https://www.facebook.com/ads/library')
 input('Вы можете зарегистрироваться в facebook аккаунте, затем нажмите Enter')
