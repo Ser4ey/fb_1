@@ -16,8 +16,8 @@ class GoogleDrive11:
         self.dir_id = dir_id
 
     def upload_file(self, file_path):
-        # file1 = self.drive.CreateFile({"parents": [{"id": self.dir_id}]})
-        file1 = self.drive.CreateFile()
+        file1 = self.drive.CreateFile({"parents": [{"id": self.dir_id}]})
+        # file1 = self.drive.CreateFile()
         file1.SetContentFile(file_path)
         file1.Upload()
 
