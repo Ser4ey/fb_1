@@ -132,21 +132,36 @@ class FaceBookParser:
         # soup = BeautifulSoup(page_source, 'lxml')
         # card = soup.find('div', class_='_99s5')
 
-        zapusk = 'Нет времени запуска'
-        fb_id = 'Нет facebook id'
-        product_name = 'Нет имени продукта'
-        socs = 'Нет соц.сетей'
-        fb_ava = 'Нет ссылки на аватарку в facebook'
-        link = 'Нет ссылки'
-        price = 'Нет инстаграм аккаунта'
-        opis = 'Нет описания'
+        # zapusk = 'Нет времени запуска'
+        # fb_id = 'Нет facebook id'
+        # product_name = 'Нет имени продукта'
+        # socs = 'Нет соц.сетей'
+        # fb_ava = 'Нет ссылки на аватарку в facebook'
+        # link = 'Нет ссылки'
+        # price = 'Нет инстаграм аккаунта'
+        # opis = 'Нет описания'
+        #
+        # product_image_link = 'Нет ссылки на картинку'
+        # product_image2_link = 'Нет ссылки на картинку'
+        # product_image3_link = 'Нет ссылки на картинку'
+        # product_image4_link = 'Нет ссылки на картинку'
+        #
+        # product_video_link = 'Нет ссылки на видео'
+        zapusk = ''
+        fb_id = ''
+        product_name = ''
+        socs = ''
+        fb_ava = ''
+        link = ''
+        price = ''
+        opis = ''
 
-        product_image_link = 'Нет ссылки на картинку'
-        product_image2_link = 'Нет ссылки на картинку'
-        product_image3_link = 'Нет ссылки на картинку'
-        product_image4_link = 'Нет ссылки на картинку'
+        product_image_link = ''
+        product_image2_link = ''
+        product_image3_link = ''
+        product_image4_link = ''
 
-        product_video_link = 'Нет ссылки на видео'
+        product_video_link = ''
 
         try:
             block_with_date_and_facebook_id = card.find('div', class_='_7jvz')
@@ -179,7 +194,7 @@ class FaceBookParser:
                 elif socs_media[-7:] == ' -66px;':
                     socs += 'audience '
             if socs == '':
-                socs = 'Нет соц.сетей'
+                socs = ''
             socs = socs.strip()
         except:
             pass
@@ -201,7 +216,7 @@ class FaceBookParser:
             try:
                 opis = opis2.find('span', class_="l61y9joe jdeypxg0 ippphs35 and5a8ls te7ihjl9 svz86pwt a53abz89").text
             except:
-                opis = 'Мы показываем вам эту рекламу, потому что не можем определить ваш возраст.'
+                opis = ''
 
             opis = opis.strip()
         except:
@@ -217,9 +232,9 @@ class FaceBookParser:
             product_image_link_list = card.find_all('img', class_='_7jys _7jyt img')
             if len(product_image_link_list) > 0:
                 product_image_link_list = [i.get('src') for i in product_image_link_list]
-                product_image_link_list.append('Нет ссылки на картинку')
-                product_image_link_list.append('Нет ссылки на картинку')
-                product_image_link_list.append('Нет ссылки на картинку')
+                product_image_link_list.append('')
+                product_image_link_list.append('')
+                product_image_link_list.append('')
 
                 product_image_link = product_image_link_list[0]
                 product_image2_link = product_image_link_list[1]
@@ -246,6 +261,10 @@ class FaceBookParser:
             'product_image4_link': product_image4_link,
             'product_video_link': product_video_link
         }
+
+        if product_image_link == '' and product_video_link == '':
+            print('Пустая карточка')
+            return None
 
         return dict_of_data
 
