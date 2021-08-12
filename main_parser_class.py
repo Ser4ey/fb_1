@@ -1,9 +1,4 @@
-import csv
-import os
-import pickle
-import threading
-import pyautogui
-import selenium
+from google_drive_API1 import GoogleDriverSave11
 from selenium import webdriver
 import time
 import data
@@ -155,6 +150,7 @@ class FaceBookParser:
         link = ''
         price = ''
         opis = ''
+        knopka = ''
 
         product_image_link = ''
         product_image2_link = ''
@@ -223,7 +219,13 @@ class FaceBookParser:
             pass
 
         try:
+            knopka = card.find('div', class_='g1fckbup dfy4e4am ch6zkgc8 sdgvddc7 b8b10xji okyvhjd0 rpcniqb6 jytk9n0j ojz0a1ch avm085bc mtc4pi7f jza0iyw7 njc9t6cs qhe9tvzt spzutpn9 puibpoiz svsqgeze if5qj5rh har4n1i8 diwav8v6 nlmdo9b9 h706y6tg qbdq5e12 j90q0chr rbzcxh88 h8e39ki1 rgsc13q7 a53abz89 llt6l64p pt6x234n bmtosu2b hk3wrqk2 s7wjoji2 jztyeye0 d5rc5kzv jdcxz0ji frrweqq6 qnavoh4n b1hd98k5 c332bl9r f1dwqt7s rqkdmjxc tb4cuiq2 nmystfjm kojzg8i3 m33fj6rl wy1fu5n8 chuaj5k6 hkz453cq dkjikr3h ay1kswi3 lcvupfea qnhs3g5y pqsl77i9').text
+        except:
+            pass
+
+        try:
             product_video_link = card.find('video').get('src')
+            product_video_link = GoogleDriverSave11.save_video(product_video_link)
             # print(product_video_link)
         except:
             pass
@@ -237,11 +239,19 @@ class FaceBookParser:
                 product_image_link_list.append('')
 
                 product_image_link = product_image_link_list[0]
+                product_image_link = GoogleDriverSave11.save_image(product_image_link)
+
                 product_image2_link = product_image_link_list[1]
+                product_image2_link = GoogleDriverSave11.save_image(product_image2_link)
+
                 product_image3_link = product_image_link_list[2]
+                product_image3_link = GoogleDriverSave11.save_image(product_image3_link)
+
                 product_image4_link = product_image_link_list[3]
+                product_image4_link = GoogleDriverSave11.save_image(product_image4_link)
             else:
                 product_image_link = card.find('img', class_='_7jys img').get('src')
+                product_image_link = GoogleDriverSave11.save_image(product_image_link)
 
             # print(product_video_link)
         except:
@@ -255,6 +265,7 @@ class FaceBookParser:
             'fb_ava': fb_ava,
             'link': link,
             'opis': opis,
+            'knopka': knopka,
             'product_image_link': product_image_link,
             'product_image2_link': product_image2_link,
             'product_image3_link': product_image3_link,

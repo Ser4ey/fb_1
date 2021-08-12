@@ -1,5 +1,9 @@
+import requests
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
+import time
+
+import data
 
 
 class GoogleDrive11:
@@ -18,10 +22,31 @@ class GoogleDrive11:
 
         return file1['id']
 
+    def save_video(self, url):
+        if url == '':
+            return ''
+
+        r = requests.get(url)
+        name = str(time.time()) + '.mp4'
+        path_to_file = 'media/' + name
+
+        with open(path_to_file, 'wb') as f:
+            f.write(r.content)
+
+        return self.upload_file(path_to_file)
+
+    def save_image(self, url):
+        if url == '':
+            return ''
+
+        r = requests.get(url)
+        name = str(time.time()) + '.jpg'
+        path_to_file = 'media/' + name
+
+        with open(path_to_file, 'wb') as f:
+            f.write(r.content)
+
+        return self.upload_file(path_to_file)
 
 
-g1 = GoogleDrive11('1xgxlthzG8xC2tIlQuoC5geeq3_Om9q-1')
-r1 = g1.upload_file('/home/ser4/PycharmProjects/fasebook_parser/key_words.txt')
-print(r1)
-r2 = g1.upload_file('/home/ser4/PycharmProjects/fasebook_parser/geckodriver.log')
-print(r2)
+GoogleDriverSave11 = GoogleDrive11(data.google_drive_dir_id)
