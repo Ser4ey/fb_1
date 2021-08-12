@@ -21,7 +21,7 @@ class GoogleDrive11:
         file1.SetContentFile(file_path)
         file1.Upload()
 
-        return file1['id']
+        return "https://drive.google.com/uc?export=view&id=" + str(file1['id'])
 
     def save_video(self, url):
         if url == '':

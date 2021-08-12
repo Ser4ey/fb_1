@@ -39,7 +39,18 @@ def get_all_cards_from_page(key_word):
         'product_image2_link',
         'product_image3_link',
         'product_image4_link',
-        'product_video_link'
+        'product_video_link',
+        'price',
+        'lang',
+        'data1',
+        'data2',
+        'facebook1',
+        'instagram1',
+        'messenger1',
+        'audience1',
+        'lead_form',
+        'lead_form_link',
+        'teaser2'
     )
     save_in_scv(start_row)
 
@@ -75,7 +86,18 @@ def get_all_cards_from_page(key_word):
                     card_info1['product_image2_link'],
                     card_info1['product_image3_link'],
                     card_info1['product_image4_link'],
-                    card_info1['product_video_link']
+                    card_info1['product_video_link'],
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    ''
                 )
                 save_in_scv(work_row)
             except:
