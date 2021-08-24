@@ -18,6 +18,63 @@ d1 = FaceBookParser()
 d1.driver.get('https://www.facebook.com/ads/library')
 input('Вы можете зарегистрироваться в facebook аккаунте, затем нажмите Enter')
 
+TIME_NOW = str(time.time()).split(".")[0]
+
+
+def get_links_from_socs(socs_name, current_socs):
+    if socs_name is None:
+        return ''
+
+    if 'facebook' in socs_name and current_socs == 'facebook':
+        return 'https://spytool.ru/facebook.png'
+
+    if 'instagram' in socs_name and current_socs == 'instagram':
+        return 'https://spytool.ru/instagram.png'
+
+    if 'audience' in socs_name and current_socs == 'audience':
+        return 'https://spytool.ru/audience_network.png'
+
+    if 'messenger' in socs_name and current_socs == 'messenger':
+        return 'https://spytool.ru/messenger.jpg'
+
+    return ''
+
+
+def save_in_scv(row):
+    with open(f'results/main{TIME_NOW}.csv', 'a', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        writer.writerow(row)
+
+
+start_row = (
+    'zapusk',
+    'fb_id',
+    'product_name',
+    'socs',
+    'fb_ava',
+    'link',
+    'opis',
+    'knopka',
+    'fb_link',
+    'product_image_link',
+    'product_image2_link',
+    'product_image3_link',
+    'product_image4_link',
+    'product_video_link',
+    'price',
+    'lang',
+    'data1',
+    'data2',
+    'facebook1',
+    'instagram1',
+    'audience1',
+    'messenger1',
+    'lead_form',
+    'lead_form_link',
+    'teaser2'
+)
+save_in_scv(start_row)
+
 
 def get_all_cards_from_page(key_word):
 
@@ -26,52 +83,25 @@ def get_all_cards_from_page(key_word):
     d1.driver.get(URL)
     time.sleep(5)
     d1.scroll_page()
-    TIME_NOW = str(time.time()).split(".")[0]
-
-    def save_in_scv(row):
-        with open(f'results/{key_word}{TIME_NOW}.csv', 'a', encoding='utf-8') as file:
-            writer = csv.writer(file)
-            writer.writerow(row)
-
-    start_row = (
-        'zapusk',
-        'fb_id',
-        'product_name',
-        'socs',
-        'fb_ava',
-        'link',
-        'opis',
-        'knopka',
-        'fb_link',
-        'product_image_link',
-        'product_image2_link',
-        'product_image3_link',
-        'product_image4_link',
-        'product_video_link',
-        'price',
-        'lang',
-        'data1',
-        'data2',
-        'facebook1',
-        'instagram1',
-        'messenger1',
-        'audience1',
-        'lead_form',
-        'lead_form_link',
-        'teaser2'
-    )
-    save_in_scv(start_row)
 
     CardsData = []
     CARD_NUMBER = 0
 
-    # for i1 in range(1):
+    not_end_flag = True
     while True:
         beautiful_soup_cards = d1.get_cards_by_beautiful_soup()
         if len(beautiful_soup_cards) <= CARD_NUMBER:
-            print(f'Все карточки получены ({CARD_NUMBER} шт.)')
-            break
+            print(f'Все карточки получены ({CARD_NUMBER} шт.) {len(beautiful_soup_cards)}')
+            if not_end_flag:
+                d1.scroll_page()
+                not_end_flag = False
+                continue
+            else:
+                break
+        else:
+            not_end_flag = True
 
+        counter_ = 0
         for i in range(CARD_NUMBER, len(beautiful_soup_cards)):
             try:
                 card_info1 = d1.get_all_info_from_card(beautiful_soup_cards[CARD_NUMBER])
@@ -99,10 +129,10 @@ def get_all_cards_from_page(key_word):
                     '',
                     '',
                     '',
-                    '',
-                    '',
-                    '',
-                    '',
+                    get_links_from_socs(card_info1['socs'], 'facebook'),
+                    get_links_from_socs(card_info1['socs'], 'instagram'),
+                    get_links_from_socs(card_info1['socs'], 'audience'),
+                    get_links_from_socs(card_info1['socs'], 'messenger'),
                     '',
                     '',
                     ''
@@ -118,7 +148,8 @@ def get_all_cards_from_page(key_word):
             print(card_info1)
             print('-' * 100)
             # максимум 30 карточек в 1 прокрутку
-            if i - CARD_NUMBER >= 30:
+            counter_ += 1
+            if counter_ >= 30:
                 print('many cards')
                 break
 
