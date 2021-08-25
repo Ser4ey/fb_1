@@ -32,6 +32,12 @@ class FaceBookParser:
 
         self.driver = driver
 
+    def go_to_page(self, key_word):
+        url = f'https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=ALL&q={key_word}&sort_data[direction]=desc&sort_data[mode]=relevancy_monthly_grouped&search_type=keyword_unordered&media_type=all'
+        self.driver.get(url)
+        print(f'Открото ключевое слово: {key_word}')
+        time.sleep(3)
+
     def infinity_scroll(self):
         last_height = self.driver.execute_script("return document.body.scrollHeight")
         i = 0
@@ -46,6 +52,36 @@ class FaceBookParser:
                 last_height = new_height
                 i += 1
                 print(f'Прокрутка страницы...{i}')
+
+    def infinity_scroll2(self):
+        last_height = self.driver.execute_script("return document.body.scrollHeight")
+        i = 0
+        wait_counter = 0
+        while True:
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(1)
+            new_height = self.driver.execute_script("return document.body.scrollHeight")
+            if new_height == last_height:
+                wait_counter += 1
+                if wait_counter > 10:
+                    time.sleep(20)
+                    print('Страница полностью загружена')
+                    cards = self.get_cards_by_beautiful_soup()
+                    print(f'Найдено карточек: {len(cards)}')
+                    return cards
+                else:
+                    print('Новые карточки не загрузились')
+                    continue
+            else:
+                wait_counter = 0
+                last_height = new_height
+                i += 1
+                # t1 = time.time()
+                # cards = self.get_cards_by_beautiful_soup()
+                #
+                # print(f'Прокрутка страницы...{i} Cards: {len(cards)} Time: {time.time()-t1}')
+                print(f'Прокрутка страницы...{i}')
+
 
     def scroll_page(self):
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -110,11 +146,6 @@ class FaceBookParser:
             else:
                 break
 
-        # time.sleep(2.5)
-        # inst1 = self.get_instagram_account_from_card_page()
-        # if inst1 == 'Нет инстаграмм аккаунта':
-        #     time.sleep(5)
-        #     inst1 = self.get_instagram_account_from_card_page()
 
         self.return_to_main_page()
 
@@ -182,16 +213,16 @@ class FaceBookParser:
             socs_list2 = [i.get('style') for i in socs_list]
             socs = ''
             for socs_media in socs_list2:
-                if socs_media[-7:] == '-323px;':
+                if socs_media[-7:] == '-314px;':
                     socs += 'facebook '
 
-                elif socs_media[-7:] == '-340px;':
+                elif socs_media[-7:] == '-331px;':
                     socs += 'instagram '
 
                 elif socs_media[-7:] == ' -66px;':
                     socs += 'audience '
 
-                elif socs_media[-7:] == '-357px;':
+                elif socs_media[-7:] == '-348px;':
                     socs += 'messenger '
 
             if socs == '':
